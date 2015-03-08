@@ -6,6 +6,8 @@ import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -73,13 +75,35 @@ public class MultiAccount {
 	}
 	
 	/**
-	 * Parse formated input string: "$currencyCode $amount", for example: "USD 25" and add the value into amounts map.    
+	 * Parse formated input string: "$currencyCode $amount", for example: "USD 25" and add (or init) the value into amounts map.    
 	 * @param input
 	 */
-	public void add(String input) {
-		Money m = Money.parse(input);
+	public void processInput(String input) {
+		input = input.trim();
+		Pattern pattern = Pattern.compile("([A-Z]{3})(\\s)(\\-?[0-9]+\\.?[0-9]*)(\\s?)([0-9]+\\.?[0-9]*)?");
+		Matcher matcher = pattern.matcher(input);
+		if (!matcher.matches()) {
+			throw new IllegalArgumentException("Wrong input format.");
+		}
+		String currencyCode = matcher.group(1);
+		String inMoney = currencyCode + " " + matcher.group(3); 
+		String inExchRate = matcher.group(5);
+		
+		Money m = Money.parse(inMoney);
 		Currency c = Currency.getInstance(m.getCurrencyUnit().getCurrencyCode());
-		this.add(c, m.getAmount());
+		if (getCurrencySet().contains(c)) {
+			this.add(c, m.getAmount());
+		} else {
+			this.initCurrency(c, m.getAmount());
+		}
+		
+		if (null != inExchRate) { // exchange rate exists in the input
+			if (defaultCurrency.toString().equals(currencyCode)) {
+				throw new IllegalArgumentException("Cannot specify exchange rate for the default currency itself.");
+			}
+			setExchangeRate(c, new BigDecimal(inExchRate));
+		}
+		
 	}
 	
 	/**
@@ -145,9 +169,5 @@ public class MultiAccount {
 	public Currency getDefaultCurrency() {
 		return defaultCurrency;
 	}
-	
-	
-	
-	
 	
 }
