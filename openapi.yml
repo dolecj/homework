@@ -25,16 +25,256 @@ servers:
   - url: 'http://example.com/api/v1'
   - url: 'https://example.com/api/v1'
 paths:
-  '/users/{username}':
-    parameters:
-     - name: username
-       in: path
-       required: true
-       type: string
-  /echo:
-    responses:
+  /lookuptablemanager.fetch:
+    post:
+      summary: List All Lookup Tables
+      tags:
+        - Lookup Tables (Company Parameters)
+      responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                title: listAllLookupTablesResponse
+                properties:
+                  response:
+                    type: object
+                    properties:
+                      node:
+                        type: string
+                        minLength: 1
+                      csrfToken:
+                        type: string
+                        minLength: 1
+                      startRow:
+                        type: number
+                      data:
+                        type: array
+                        uniqueItems: true
+                        minItems: 1
+                        items:
+                          properties:
+                            version:
+                              type: number
+                            typedId:
+                              type: string
+                              minLength: 1
+                            uniqueName:
+                              type: string
+                              minLength: 1
+                            label:
+                              type: string
+                              minLength: 1
+                            validAfter:
+                              type: string
+                              minLength: 1
+                            status:
+                              type: string
+                              minLength: 1
+                            simulationSet: {}
+                            type:
+                              type: string
+                              minLength: 1
+                            valueType:
+                              type: string
+                              minLength: 1
+                            nodeId: {}
+                            userGroupEdit: {}
+                            userGroupViewDetails: {}
+                            hideWarnings:
+                              type: boolean
+                            formatType: {}
+                            lastUpdateByName:
+                              type: string
+                              minLength: 1
+                            createdByName:
+                              type: string
+                              minLength: 1
+                            numberOfKeyFields:
+                              type: number
+                            createDate:
+                              type: string
+                              minLength: 1
+                            createdBy:
+                              type: number
+                            lastUpdateDate:
+                              type: string
+                              minLength: 1
+                            lastUpdateBy:
+                              type: number
+                            id:
+                              type: number
+                            isPlasma:
+                              type: boolean
+                      endRow:
+                        type: integer
+                        description: The number of the end row that defines the end of the result set's returned objects. Use this parameter if you want to implement paging for results.
+                      totalRows:
+                        type: integer
+                      status:
+                        type: number
+              examples:
+                listAllParametersResponseExample:
+                  value:
+                    response:
+                      node: <node>
+                      csrfToken: <token>
+                      startRow: 0
+                      data:
+                        - version: 2
+                          typedId: 2147484027.LT
+                          uniqueName: test
+                          label: Test2
+                          validAfter: '2021-09-29'
+                          status: ACTIVE
+                          simulationSet: null
+                          type: SIMPLE
+                          valueType: STRING
+                          nodeId: null
+                          userGroupEdit: null
+                          userGroupViewDetails: null
+                          hideWarnings: false
+                          formatType: null
+                          lastUpdateByName: admin
+                          createdByName: admin
+                          numberOfKeyFields: 1
+                          createDate: '2021-09-30T14:43:25'
+                          createdBy: 2147490696
+                          lastUpdateDate: '2021-10-01T12:05:34'
+                          lastUpdateBy: 2147490696
+                          id: 2147484027
+                          isPlasma: false
+                        - version: 0
+                          typedId: 2147484036.LT
+                          uniqueName: matrix
+                          label: matrix
+                          validAfter: '2021-10-05'
+                          status: ACTIVE
+                          simulationSet: null
+                          type: MATRIX
+                          valueType: MATRIX
+                          nodeId: null
+                          userGroupEdit: null
+                          userGroupViewDetails: null
+                          hideWarnings: false
+                          formatType: null
+                          lastUpdateByName: admin
+                          createdByName: admin
+                          numberOfKeyFields: 1
+                          createDate: '2021-10-06T10:53:26'
+                          createdBy: 2147490696
+                          lastUpdateDate: '2021-10-06T10:53:26'
+                          lastUpdateBy: 2147490696
+                          id: 2147484036
+                          isPlasma: false
+                      endRow: 2
+                      totalRows: 2
+                      status: 0
+      operationId: post-lookuptablemanager.fetch
+      description: |-
+        Retrieves all Lookup Tables (Company Parameters).<p>
+        You can use this endpoint to retrieve the table ID. The `tableId` can be used in other endpoint URLs that work with Price Parameter Values. Find the table ID in the response under `id` parameter (e.g. `"id": 2147484027`)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              title: listAllLookupTablesRequest
+              type: object
+              properties:
+                endRow:
+                  type: integer
+                  description: The number of the end row that defines the end of the result set's returned objects. Use this parameter if you want to implement paging for results.
+                  default: 300
+                oldValues: {}
+                operationType:
+                  type: string
+                  minLength: 1
+                startRow:
+                  type: integer
+                  description: The number of the first row that defines the start of the result set's returned objects. Use this parameter if you want to implement paging for results.
+                textMatchStyle:
+                  type: string
+                  minLength: 1
+                data:
+                  type: object
+                  properties:
+                    _constructor:
+                      type: string
+                      minLength: 1
+                    operator:
+                      type: string
+                      minLength: 1
+                    criteria:
+                      type: array
+                      uniqueItems: true
+                      minItems: 1
+                      items:
+                        type: object
+                        properties:
+                          fieldName:
+                            type: string
+                            minLength: 1
+                          operator:
+                            type: string
+                            minLength: 1
+                            enum:
+                              - equals
+                              - iEquals
+                              - notEqual
+                              - iNotEqual
+                              - isNull
+                              - notNull
+                              - contains
+                              - iContains
+                              - containsPattern
+                              - iContainsPattern
+                              - notContains
+                              - iNotContains
+                              - startsWith
+                              - iStartsWith
+                              - notStartsWith
+                              - iNotStartsWith
+                              - endsWith
+                              - iEndsWith
+                              - notEndsWith
+                              - iNotEndsWith
+                              - iBetween
+                              - iBetweenInclusive
+                              - inSet
+                              - notInSet
+                            description: Specify an operator of the filter criteria.
+                          value:
+                            type: string
+                            minLength: 1
+                sortBy:
+                  type: array
+                  items: {}
+            examples:
+              listAllParametersRequestExample:
+                value:
+                  endRow: 30
+                  oldValues: null
+                  operationType: fetch
+                  startRow: 0
+                  textMatchStyle: exact
+                  data:
+                    _constructor: AdvancedCriteria
+                    operator: and
+                    criteria:
+                      - fieldName: label
+                        operator: iEquals
+                        value: matrix
+                  sortBy:
+                    - uniqueName
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: You can specify the start and end row to limit the number of retrieved Lookup Tables (Company Parameters).
 components:
   securitySchemes:
     main_auth:
