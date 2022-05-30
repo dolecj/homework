@@ -26,9 +26,14 @@ servers:
   - url: 'https://example.com/api/v1'
 paths:
   '/users/{username}':
-    $ref: 'paths/users@{username}.yaml'
+    parameters:
+     - name: username
+       required: true
+       type: string
   /echo:
-    $ref: paths/echo.yaml
+    responses:
+        '200':
+          description: OK
 components:
   securitySchemes:
     main_auth:
