@@ -28,7 +28,7 @@ paths:
   '/users/{username}':
     parameters:
      - name: username
-       in:path
+       in: path
        required: true
        type: string
   /echo:
