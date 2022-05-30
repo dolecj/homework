@@ -1,0 +1,15 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Javajets.cz
+  termsOfService: 'https://javajets.cz/terms/'
+  contact:
+    email: contact@javajets.cz
+    url: 'http://javajets.cz/contact'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  x-logo:
+    url: 'https://apis.guru/openapi-template/logo.png'
+  description: >
+    This is an **example** API to demonstrate features of OpenAPI specification.
