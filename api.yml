@@ -1,0 +1,21 @@
+openapi: 3.0.0
+info:
+  title: The Javajets Backend API
+  version: '1.0'
+  description: Javajets REST API Reference
+  contact:
+    email: info@javajets.cz
+    name: Javajets
+    url: 'https://www.javajets.cz'
+servers:
+  - url: 'https://{baseUrl}/javajets/{partition}'
+    description: 'URL:'
+    variables:
+      baseUrl:
+        default: companynode.javajets.cz
+        description: A domain name of your Javajets instance.
+      partition:
+        default: companypartition
+        description: A name of the partition you want to use.
+paths:
+  '/jet':
